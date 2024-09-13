@@ -1,11 +1,11 @@
-class Department {
+abstract class Department {
   static fiscalYear = 2024;
   // private id: string;
   // private name: string;
   // only accesssible via method
   protected employees: string[] = [];
 
-  constructor(private readonly id: string, public name: string) {
+  constructor(protected readonly id: string, public name: string) {
     //this.id = 'd1';
     // this.name = n;
   }
@@ -14,11 +14,8 @@ class Department {
     return { name: name };
   }
 
-  describe(this: Department) {
-    console.log(`Department (${this.id}): ${this.name}`);
-    // ACCESS WITH "THIS" DOESN'T WORk cause of "static"
-    // console.log(this.fiscalYear)
-  }
+  //"abstract" forces to overwrite method for all clases that inherits Department
+  abstract describe(this: Department): void;
 
   addEmployee(employee: string) {
     //Cannot assign to 'id' because it is a read-only property
@@ -33,10 +30,15 @@ class Department {
 }
 
 class ITDepartment extends Department {
+  // static id: string;
   constructor(id: string, public admins: string[]) {
     //'super' also before 'this'
     super(id, "IT");
     this.admins = admins;
+  }
+
+  describe() {
+    console.log("IT department id:" + this.id)
   }
 }
 
@@ -60,6 +62,10 @@ class AccountigDepartment extends Department {
   constructor(id: string, private reports: string[]) {
     super(id, "Accounting");
     this.lastReport = reports[0];
+  }
+
+  describe() {
+    console.log("Accounting department id:" + this.id)
   }
 
   addReport(text: string) {
@@ -108,7 +114,8 @@ accounting.mostRecentReport = "Daily report";
 accounting.addReport("Test report");
 console.log(accounting.mostRecentReport);
 
-accounting.printReports();
+// accounting.printReports();
+accounting.describe();
 
 // const accountingCopy = {name: "copy", describe: accounting.describe};
 
