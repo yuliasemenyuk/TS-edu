@@ -1,4 +1,5 @@
 class Department {
+  static fiscalYear = 2024;
   // private id: string;
   // private name: string;
   // only accesssible via method
@@ -9,8 +10,14 @@ class Department {
     // this.name = n;
   }
 
+  static createEmployee(name: string) {
+    return { name: name };
+  }
+
   describe(this: Department) {
-    console.log(`Department (${this.id}): ${this.name}`)
+    console.log(`Department (${this.id}): ${this.name}`);
+    // ACCESS WITH "THIS" DOESN'T WORk cause of "static"
+    // console.log(this.fiscalYear)
   }
 
   addEmployee(employee: string) {
@@ -21,9 +28,9 @@ class Department {
 
   printEmployeeInformation() {
     console.log(this.employees.length);
-    console.log(this.employees)
+    console.log(this.employees);
   }
-};
+}
 
 class ITDepartment extends Department {
   constructor(id: string, public admins: string[]) {
@@ -40,19 +47,19 @@ class AccountigDepartment extends Department {
     if (this.lastReport) {
       return this.lastReport;
     }
-    throw new Error('No report found');
+    throw new Error("No report found");
   }
 
   set mostRecentReport(value: string) {
     if (!value) {
-      throw new Error('Please provide a value')
+      throw new Error("Please provide a value");
     }
-    this.addReport(value)
+    this.addReport(value);
   }
 
   constructor(id: string, private reports: string[]) {
     super(id, "Accounting");
-    this.lastReport = reports[0]
+    this.lastReport = reports[0];
   }
 
   addReport(text: string) {
@@ -61,36 +68,35 @@ class AccountigDepartment extends Department {
   }
 
   printReports() {
-    console.log(this.reports)
+    console.log(this.reports);
   }
 
   //overriding method
   addEmployee(name: string) {
-      if (name === "Max") {
-        return;
-      }
-      //Property 'employees' is private and only accessible within class 'Department'.
-      // If changed to "protected" property becomes available not only in Department class
-      // but also in any class that extends it
-      this.employees.push(name);
-      
+    if (name === "Max") {
+      return;
+    }
+    //Property 'employees' is private and only accessible within class 'Department'.
+    // If changed to "protected" property becomes available not only in Department class
+    // but also in any class that extends it
+    this.employees.push(name);
   }
 }
 
 const it = new ITDepartment("d1", ["Max"]);
-const accounting = new AccountigDepartment('d2', [])
+const accounting = new AccountigDepartment("d2", []);
 
-it.addEmployee('Max');
-it.addEmployee('Lala');
+it.addEmployee("Max");
+it.addEmployee("Lala");
 
-accounting.addEmployee('Max');
+accounting.addEmployee("Max");
 accounting.addEmployee("Viki");
 
 // Not possible to add this way 'cause of 'private'
 // accounting.employees[2] = "Anna"
 
 //While for name it's still possible
-it.name = "New Name"
+it.name = "New Name";
 
 it.describe();
 it.printEmployeeInformation();
@@ -107,3 +113,6 @@ accounting.printReports();
 // const accountingCopy = {name: "copy", describe: accounting.describe};
 
 // accountingCopy.describe();
+const employee1 = Department.createEmployee("Lisa");
+// The static members of a class are accessed using the class name and dot notation, without creating an object e.g. <ClassName>.<StaticMember>.
+console.log(employee1, Department.fiscalYear);
