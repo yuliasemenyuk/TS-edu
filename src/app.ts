@@ -1,9 +1,6 @@
-//Similar to abstract classes but no implementation details, 
-//while abstract class can be a mixture of concrete implementation parts
-//+ parts that should be overwriten
+//private, public isn't available for interfaces but readonly is available
 interface Greetable {
-  name: string;
-//   age: number;
+  readonly name: string;
 
   greet(phrase: string): void;
 }
@@ -21,10 +18,11 @@ class Person implements Greetable {
     }
 }
 
-//let user1: Greetable;  - also works
-let user1: Person;
+let user1: Greetable;
+// let user1: Person;
 
-user1 = new Person ("Max")
+user1 = new Person ("Max");
+// user1.name = "Andrew" - doesn't work due to "readonly" in interface
 
 user1.greet("Hi there, I'm");
 console.log(user1);
