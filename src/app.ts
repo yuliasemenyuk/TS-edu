@@ -1,11 +1,15 @@
-//private, public isn't available for interfaces but readonly is available
-interface Greetable {
-  readonly name: string;
-
+interface Named {
+    readonly name: string;
+}
+interface Greetable extends Named {
   greet(phrase: string): void;
 }
 
-class Person implements Greetable {
+interface Another {
+
+}
+
+class Person implements Greetable, Another {
     name: string;
     age = 30;
 
