@@ -55,6 +55,16 @@ const fetchedUserData = {
 // console.log(fetchedUserData.job && fetchedUserData.job.title);
 console.log(fetchedUserData?.job?.title);
 
+//Imagine we're getting this from DOM and TS doesn't know it's ""
+const userInput = "";
+
+//in case of all falsey values
+// const storedData = userInput || "DEFAULT";
+
+//only in case of null or undefined - nullish coalescing
+const storedData = userInput ?? "DEFAULT"
+console.log(storedData)
+
 
 // type UnknownEmployee = Employee | Admin;
 
