@@ -44,6 +44,18 @@ function add(a: Combinable, b: Combinable) {
 const result = add(1, " max");
 result.split(" ");
 
+//Imagine this is the object fetched from BE
+const fetchedUserData = {
+    id: 'u1',
+    name: "Jane",
+    job: {title: "CEO", description: "My own company"}
+};
+
+//Optional chaining
+// console.log(fetchedUserData.job && fetchedUserData.job.title);
+console.log(fetchedUserData?.job?.title);
+
+
 // type UnknownEmployee = Employee | Admin;
 
 // function printEmployeeInformation(emp: UnknownEmployee) {
