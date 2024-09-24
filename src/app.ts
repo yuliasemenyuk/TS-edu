@@ -39,3 +39,9 @@ function countAndDescribe<T extends Lengthy>(el: T): [T, string] {
 }
 
 console.log(countAndDescribe(["Hi there", ""]));
+
+function extarctAndConvert<T extends object, U extends keyof T>(obj: T, key: U) {
+    return obj[key]
+}
+
+console.log(extarctAndConvert({name: "Anna"}, "name"))
