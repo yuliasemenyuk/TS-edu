@@ -4,7 +4,7 @@
   "description": "test task for TS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "lite-server"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/yuliasemenyuk/TS-edu/issues"
   },
-  "homepage": "https://github.com/yuliasemenyuk/TS-edu#readme"
+  "homepage": "https://github.com/yuliasemenyuk/TS-edu#readme",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
 }
