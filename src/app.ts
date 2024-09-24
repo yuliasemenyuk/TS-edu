@@ -44,4 +44,50 @@ function extarctAndConvert<T extends object, U extends keyof T>(obj: T, key: U) 
     return obj[key]
 }
 
-console.log(extarctAndConvert({name: "Anna"}, "name"))
+console.log(extarctAndConvert({name: "Anna"}, "name"));
+
+class DataStorage<T
+//better specify only for primitives
+// extends string | number | boolean
+> {
+    private data: T[] = [];
+
+    addItem(item: T) {
+        this.data.push(item)
+    }
+
+    removeItem(item: T) {
+        if (this.data.indexOf(item) === -1) {
+            return;
+        }
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+
+    getItems() {
+      return [...this.data]
+    }
+}
+
+const numberStorage = new DataStorage<number>();
+numberStorage.addItem(10);
+numberStorage.addItem(33);
+numberStorage.removeItem(10);
+console.log(numberStorage.getItems());
+
+
+const textStorage = new DataStorage<string>();
+textStorage.addItem("Leo");
+
+const objectStorage = new DataStorage<object>();
+const idiObj = {name: "Idi"}
+// objectStorage.addItem({name: "Idi"});
+objectStorage.addItem(idiObj);
+objectStorage.addItem({name: "Karl"});
+
+//Actually it removes the last ellement of the array, 
+//cause each object is a different 'cell' in memory, so indexOf is -1,
+// and splice removes the last el, so additional check is added
+//and we pass a referense to exact same obj
+// objectStorage.removeItem({name: "Idi"});
+objectStorage.removeItem(idiObj)
+console.log(objectStorage.getItems())
