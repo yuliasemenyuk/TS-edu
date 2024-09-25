@@ -1,10 +1,14 @@
-//Decorator
-//executes when class is defined, not whenwe use class
-function Logger(target: Function) {
-    console.log('Logging...');
-    console.log(target);
+//Decorator factory
+//Now we can accept arguments - logString that will be reurned by inner decorator function
+function Logger(logString: string) {
+    return function(target: Function) {
+        console.log(logString);
+        console.log(target);
+    }
 }
-@Logger
+
+//Now we should call decorator - () and it will return a decorator function
+@Logger("LOGGING - PERSON")
 class Person {
     name = "Max";
 
