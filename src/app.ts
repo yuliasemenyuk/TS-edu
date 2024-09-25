@@ -46,6 +46,31 @@ function extarctAndConvert<T extends object, U extends keyof T>(obj: T, key: U) 
 
 console.log(extarctAndConvert({name: "Anna"}, "name"));
 
+//The difference between generic and union types is that
+// in case of union types we don't define here that it is eather 
+// array of string | number | boolean, array can have mixed types values
+//while generic defines that we should have same type values
+class DataStorage2 {
+    private data: (string | number | boolean)[] = [];
+    //this will cause an error on further methods as there are still string | number | boolean type
+    //private data: (string[] | number[] | boolean[]) = [];
+
+    addItem(item: string | number | boolean) {
+        this.data.push(item)
+    }
+
+    removeItem(item: string | number | boolean) {
+        if (this.data.indexOf(item) === -1) {
+            return;
+        }
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+
+    getItems() {
+      return [...this.data]
+    }
+}
+
 class DataStorage<T
 //better specify only for primitives
 // extends string | number | boolean
@@ -108,6 +133,7 @@ function createCourseGoal(title: string, description: string, date: Date): Cours
 }
 
 const names: Readonly<string[]> = ["Max", "Sandra"];
-//This methods dont's work due to Readonly
+//These methods dont's work due to Readonly
 // names.push("Linda");
 // names.pop();
+
