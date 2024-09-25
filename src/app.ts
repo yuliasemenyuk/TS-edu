@@ -91,3 +91,23 @@ objectStorage.addItem({name: "Karl"});
 // objectStorage.removeItem({name: "Idi"});
 objectStorage.removeItem(idiObj)
 console.log(objectStorage.getItems())
+
+interface CourseGoal {
+    title: string;
+    description: string;
+    completeUtill: Date;
+}
+
+function createCourseGoal(title: string, description: string, date: Date): CourseGoal {
+   let courseGoal: Partial<CourseGoal> = {};
+   courseGoal.title = title;
+   courseGoal.description = description;
+   courseGoal.completeUtill = date;
+
+   return courseGoal as CourseGoal;
+}
+
+const names: Readonly<string[]> = ["Max", "Sandra"];
+//This methods dont's work due to Readonly
+// names.push("Linda");
+// names.pop();
