@@ -111,3 +111,41 @@ class Product {
 //none of them executes during creating instances or call a method, etc
 const p1 = new Product("Book", 20);
 const p2 = new Product("Book2", 5);
+
+function Autobind(
+  _: any,
+  _2: string | Symbol | number,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+  const adjDescriptor: PropertyDescriptor = {
+    configurable: true,
+    enumerable: false,
+    get() {
+      //this will refer to the object on which we originally defined the method
+      const boundFunction = originalMethod.bind(this);
+      return boundFunction;
+    },
+  };
+  return adjDescriptor;
+}
+class Printer {
+  message = "This works!";
+
+  @Autobind
+  showMessage() {
+    console.log(this.message);
+  }
+}
+
+const p = new Printer();
+
+const button = document.querySelector("button")!;
+//if we're using event listener 'this' have not the same context as in case if
+//we just call p.showMessage, so on click we've got undefined
+
+//But with @Autobind on showMessage method it's fixed
+button.addEventListener('click', p.showMessage);
+
+//Vanilla JS OPTION TO FIX:
+// button.addEventListener('click', p.showMessage.bind(p));
