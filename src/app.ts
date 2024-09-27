@@ -8,15 +8,24 @@ function Logger(logString: string) {
   };
 }
 
+//Now decorator will be executed during cteation of instance of the class 
 function WithTemplate(template: string, hookId: string) {
   console.log("TEMPLATE FACTORY");
-  return function (constructor: any) {
-    console.log("Rendering template");
-    const hoohkEl = document.getElementById(hookId);
-    const p = new constructor();
-    if (hoohkEl) {
-      hoohkEl.innerHTML = template;
-      hoohkEl.querySelector("h1")!.textContent = p.name;
+  return function<T extends {new(...args: any[]): {name: string}}> (originalConstructor: T) {
+        //we're creating new class
+    //new constructor function that based on the original one and keeps its original properties
+    return class extends originalConstructor {
+        constructor(..._: any[]) {
+            //calling original constructor
+            super();
+            //new logic: we implement original class with new custom logic
+            console.log("Rendering template");
+            const hoohkEl = document.getElementById(hookId);
+            if (hoohkEl) {
+              hoohkEl.innerHTML = template;
+              hoohkEl.querySelector("h1")!.textContent = this.name;
+            }
+        }
     }
   };
 }
@@ -88,3 +97,9 @@ class Product {
 }
 
 //Execution order: Property decorator - Accessor decorator - Parameter decorator - Method decorator
+//-----------------------------------------------
+
+//All Log1-4 decorators executes when class is defined,
+//none of them executes during creating instances or call a method, etc
+const p1 = new Product("Book", 20);
+const p2 = new Product("Book2", 5);
