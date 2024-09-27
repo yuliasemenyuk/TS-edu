@@ -8,25 +8,27 @@ function Logger(logString: string) {
   };
 }
 
-//Now decorator will be executed during cteation of instance of the class 
+//Now decorator will be executed during cteation of instance of the class
 function WithTemplate(template: string, hookId: string) {
   console.log("TEMPLATE FACTORY");
-  return function<T extends {new(...args: any[]): {name: string}}> (originalConstructor: T) {
-        //we're creating new class
+  return function <T extends { new (...args: any[]): { name: string } }>(
+    originalConstructor: T
+  ) {
+    //we're creating new class
     //new constructor function that based on the original one and keeps its original properties
     return class extends originalConstructor {
-        constructor(..._: any[]) {
-            //calling original constructor
-            super();
-            //new logic: we implement original class with new custom logic
-            console.log("Rendering template");
-            const hoohkEl = document.getElementById(hookId);
-            if (hoohkEl) {
-              hoohkEl.innerHTML = template;
-              hoohkEl.querySelector("h1")!.textContent = this.name;
-            }
+      constructor(..._: any[]) {
+        //calling original constructor
+        super();
+        //new logic: we implement original class with new custom logic
+        console.log("Rendering template");
+        const hoohkEl = document.getElementById(hookId);
+        if (hoohkEl) {
+          hoohkEl.innerHTML = template;
+          hoohkEl.querySelector("h1")!.textContent = this.name;
         }
-    }
+      }
+    };
   };
 }
 
@@ -45,29 +47,35 @@ const person = new Person();
 console.log(person);
 
 //----------------------
+//TS will ignore return from Property decorator
 function Log(target: any, propertyName: string | Symbol) {
   console.log("Property decorator");
   console.log(target, propertyName);
 }
 
+//We can return something from Accessor decorator
 function Log2(
   target: any,
   name: string | Symbol,
   descriptor: PropertyDescriptor
-) {
+): PropertyDescriptor {
   console.log("Accessor decorator");
   console.log(target, name, descriptor);
+  return {};
 }
 
+//We can return something from Accessor decorator
 function Log3(
   target: any,
   name: string | Symbol,
   descriptor: PropertyDescriptor
-) {
+): PropertyDescriptor {
   console.log("Method decorator");
   console.log(target, name, descriptor);
+  return {};
 }
 
+//TS will ignore return from Parameter decorator
 function Log4(target: any, name: string | Symbol, position: number) {
   console.log("Parameter decorator");
   console.log(target, name, position);
